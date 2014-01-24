@@ -3,6 +3,16 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    emberTemplates: {
+      compile: {
+        options: {
+          templateBasePath: /javascripts\/templates\//
+        },
+        files: {
+          'javascripts/templates.js': 'javascripts/templates/**/*.hbs'
+        }
+      }
+    },
     watch: {
       css: {
         files: [
@@ -15,7 +25,11 @@ module.exports = function(grunt) {
           'javascripts/vendor/*.js',
         ],
         tasks: ['concat']
-      },
+      },,
+      emberTemplates: {
+        files: 'javascripts/templates/**/*.hbs',
+        tasks: ['emberTemplates']
+      }
     },
     compass: {
       dist: {
@@ -40,8 +54,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-ember-templates');
+  
   
   // Default task(s).
-  grunt.registerTask('default', ['concat', 'watch']);
+  grunt.registerTask('default', ['concat', 'emberTemplates', 'watch']);
 
 };
